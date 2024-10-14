@@ -1,0 +1,27 @@
+{
+  "name": "backendmain-1",
+  "version": "1.0.0",
+  "description": "Main branch for production on the backend",
+  "main": "server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.21.1",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.7.1",
+    "mongosh": "^2.3.2",
+    "node": "^20.18.0",
+    "path": "^0.12.7",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^22.7.5",
+    "@types/uuid": "^10.0.0"
+  }
+}
