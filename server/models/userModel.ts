@@ -1,4 +1,8 @@
-const Uri: string = `mongosh "mongodb+srv://userdatabase.dwlwu.mongodb.net/" --apiVersion 1 --username davidjs314 --password Djs314642763`
+import dotenv from 'dotenv'
+dotenv.config();
+
+const dbpassword: string = process.env.DB_PASS;
+const Uri: string = `mongodb+srv://davidjs314:${dbpassword}@userdatabase.dwlwu.mongodb.net/?retryWrites=true&w=majority&appName=UserDatabase`
 
 import mongoose, { Schema, Document } from 'mongoose';
 
