@@ -10,7 +10,12 @@ import User from '../models/userModel';
 const userController = {} as userController;
 
 userController.addUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { email, password } = req.body;
+    const { email, password, confirmPassword } = req.body;
+
+    if(password !== confirmPassword){
+        return next({log: 'Passwords did not match for signup', message: 'Passwords given do not match', status: 400})
+    }
+
     console.log('reached adduser')
     //check to see if all required fields are present
     if( email === undefined || password === undefined ) {
@@ -51,6 +56,7 @@ userController.addUser = async (req: Request, res: Response, next: NextFunction)
 
 userController.verifyUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { email, password } = req.body;
+    
     if( email === undefined || password === undefined ) {
         return next({
            log: 'Express error handler caught error in addUser Middleware',
