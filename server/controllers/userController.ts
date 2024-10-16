@@ -70,6 +70,7 @@ userController.verifyUser = async (req: Request, res: Response, next: NextFuncti
         const match = await bcrypt.compare(password, user.password)
         if(match) {
             req.session.userId = user._id;
+            console.log('session userId set to ' + req.session.userId);
             return next();
         }
         else {

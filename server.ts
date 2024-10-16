@@ -13,19 +13,21 @@ import cors from 'cors';
 const app = express();
 const PORT: number = 3001;
 
+app.use(session({
+    secret: 'fillerfornow',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: false,
+        httpOnly: true,
+        maxAge: 1000 * 60 * 30 // 30 minutes
+    }
+}));
+
 app.use(cors({
     origin: 'http://localhost:3002', // Frontend URL
     methods: ['GET', 'POST'],
     credentials: true // Optional, if you're handling cookies or authentication tokens
-}));
-
-app.use(session({
-    secret: 'fillerfornow',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        maxAge: 1000 * 60 * 30 // 30 minutes
-    }
 }));
 
 app.use(express.urlencoded({ extended: true }));
@@ -40,7 +42,7 @@ app.post('/api/signup', userController.addUser, (req: Request, res: Response): v
     res.status(201).json({success: true, message: 'Account Created'});
 }); 
 
-app.get('/sessionUp', sessionController.validateSession, (req: Request, res: Response): void => {
+app.get('/api/sessionUp', sessionController.validateSession, (req: Request, res: Response): void => {
     res.sendStatus(200);
 });
 
