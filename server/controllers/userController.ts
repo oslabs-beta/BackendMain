@@ -10,8 +10,8 @@ import User from '../models/userModel';
 const userController = {} as userController;
 
 userController.addUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { email, password, confirmPassword } = req.body;
-
+    const { password, confirmPassword } = req.body;
+    const email = req.body.email.toLowerCase().trim();
     if(password !== confirmPassword){
         return next({log: 'Passwords did not match for signup', message: 'Passwords given do not match', status: 400})
     }
@@ -55,8 +55,8 @@ userController.addUser = async (req: Request, res: Response, next: NextFunction)
 };
 
 userController.verifyUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { email, password } = req.body;
-    
+    const password  = req.body.password;
+    const email = req.body.email.toLowerCase().trim();
     if( email === undefined || password === undefined ) {
         return next({
            log: 'Express error handler caught error in addUser Middleware',
