@@ -28,7 +28,7 @@ userController.addUser = async (req: Request, res: Response, next: NextFunction)
 
     //check if there is already an account registerd with that username
     const user = await User.findOne({email: email});
-    console.log(user);
+    console.log(user,"user");
     if(user === null){
         try {
             const salt = await bcrypt.genSalt(10);
@@ -37,6 +37,7 @@ userController.addUser = async (req: Request, res: Response, next: NextFunction)
             console.log(newUser);
             return next()
         } catch (error) {
+            console.log("create user error")
             const err = {
                 log: 'Express error handler caught error in addUser Middleware: ' + error,
                 status: 500,
@@ -59,13 +60,14 @@ userController.verifyUser = async (req: Request, res: Response, next: NextFuncti
     const email = req.body.email.toLowerCase().trim();
     if( email === undefined || password === undefined ) {
         return next({
-           log: 'Express error handler caught error in addUser Middleware',
+           log: 'Express error handler caught error in verifyUser Middleware',
            status: 400,
            message: {err: 'Missing one of the required fields(Email or Password)'},
        });
    }
    const user = await User.findOne({email: email});
    if(user) {
+
     try {
         const match = await bcrypt.compare(password, user.password)
         if(match) {
@@ -83,6 +85,12 @@ userController.verifyUser = async (req: Request, res: Response, next: NextFuncti
             message: {err: 'user authentication failed!'},
         }
     }
+} else {
+    return next({
+        log: 'Cannot find user in verifyUser Middleware',
+        status: 401,
+        message: {err: 'Error in verifying user'},
+    })
 }
 }
 
