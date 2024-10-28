@@ -27,7 +27,7 @@ app.use(
 
 app.use(
   cors({
-    origin: "http://localhost:3002", // Frontend URL
+    origin: "http://localhost:8080", // Frontend URL
     methods: ["GET", "POST"],
     credentials: true, // Optional, if you're handling cookies or authentication tokens
   })
@@ -61,7 +61,7 @@ app.get(
 );
 
 app.get(
-  "/getUserQueries",
+  "/api/getUserQueries",
   userController.getUserQueries,
   (req: Request, res: Response): void => {
     res.status(200).json(res.locals.userQueries);
@@ -69,17 +69,17 @@ app.get(
 );
 
 app.put(
-  "/dataSource",
+  "/api/dataSource",
   userController.addDataSource,
   (req: Request, res: Response): void => {
     res
       .status(200)
-      .json({ message: `successfully added DataSource to user profile` });
+      .json(res.locals.newDataSource);
   }
 );
 
 app.post(
-  "/addCategory",
+  "/api/addCategory",
   userController.addCategory,
   (req: Request, res: Response): void => {
     res.status(200).json(res.locals.newCategory);
@@ -87,7 +87,7 @@ app.post(
 );
 
 app.post(
-  "/addQuery",
+  "/api/addQuery",
   userController.addQueries,
   (req: Request, res: Response): void => {
     res.status(200).json(res.locals.userQueries);
@@ -95,16 +95,20 @@ app.post(
 );
 
 app.delete(
-  "/deleteQuery",
+  "/api/deleteQuery",
   userController.deleteQuery,
   (req: Request, res: Response): void => {
     res.status(200).json(res.locals.updatedQueries);
   }
 );
 
-app.delete("/deleteCategory", userController.deleteCategory, (req: Request, res: Response): void =>{
-    res.status(200).json({message: 'Category has been deleted'})
-})
+app.delete(
+  "/api/deleteCategory",
+  userController.deleteCategory,
+  (req: Request, res: Response): void => {
+    res.status(200).json({ message: "Category has been deleted" });
+  }
+);
 
 app.use(
   (err: ServerError, req: Request, res: Response, next: NextFunction): void => {
