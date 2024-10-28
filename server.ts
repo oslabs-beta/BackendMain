@@ -72,6 +72,52 @@ app.post(
   }
 );
 
+app.get(
+  "/getUserQueries",
+  userController.getUserQueries,
+  (req: Request, res: Response): void => {
+    res.status(200).json(res.locals.userQueries);
+  }
+);
+
+app.put(
+  "/dataSource",
+  userController.addDataSource,
+  (req: Request, res: Response): void => {
+    res
+      .status(200)
+      .json({ message: `successfully added DataSource to user profile` });
+  }
+);
+
+app.post(
+  "/addCategory",
+  userController.addCategory,
+  (req: Request, res: Response): void => {
+    res.status(200).json(res.locals.newCategory);
+  }
+);
+
+app.post(
+  "/addQuery",
+  userController.addQueries,
+  (req: Request, res: Response): void => {
+    res.status(200).json(res.locals.userQueries);
+  }
+);
+
+app.delete(
+  "/deleteQuery",
+  userController.deleteQuery,
+  (req: Request, res: Response): void => {
+    res.status(200).json(res.locals.updatedQueries);
+  }
+);
+
+app.delete("/deleteCategory", userController.deleteCategory, (req: Request, res: Response): void =>{
+    res.status(200).json({message: 'Category has been deleted'})
+})
+
 app.use(
   (err: ServerError, req: Request, res: Response, next: NextFunction): void => {
     const defaultErr: ServerError = {
