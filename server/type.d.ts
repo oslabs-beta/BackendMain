@@ -20,6 +20,7 @@ export type userController = {
   getUserQueries: (req: Request, res: Response, next: NextFunction) => void;
   addCategory: (req: Request, res: Response, next: NextFunction) => void;
   deleteCategory: (req: Request, res: Response, next: NextFunction) => void;
+
 };
 
 export type openAiController = {
