@@ -23,4 +23,17 @@ export type userController = {
 
 };
 
+export type githubOAuthController = {
+    getAccessToken: (req: Request, res: Response, next: NextFunction) => void;
+    getUserData: (req: Request, res: Response, next: NextFunction) => void;
+    validateJwtToken: (req: Request, res: Response, next: NextFunction) => void;
+    refreshJwtToken: (req: Request, res: Response, next: NextFunction) => void;
+}
+
+export type googleOAuthController = {
+    getAccessToken: (req: Request, res: Response, next: NextFunction) => void;
+}
+
+
+
 

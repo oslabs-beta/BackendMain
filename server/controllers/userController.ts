@@ -1,10 +1,7 @@
-import { Request, Response, NextFunction, RequestHandler } from "express";
-import { userController } from "../type";
-import { ObjectId } from "mongodb";
-import bcrypt from "bcrypt";
-import path from "path";
-import User from "../models/userModel";
-
+import { Request, Response, NextFunction} from 'express';
+import { userController } from '../type';
+import bcrypt from 'bcrypt';
+import User from '../models/userModel';
 const userController = {} as userController;
 
 userController.addUser = async (
@@ -21,17 +18,14 @@ userController.addUser = async (
       status: 400,
     });
   }
-
-  console.log("reached adduser");
-  //check to see if all required fields are present
-  if (email === undefined || password === undefined) {
-    return next({
-      log: "Express error handler caught error in addUser Middleware",
-      status: 400,
-      message: { err: "Missing one of the required fields(Email or Password)" },
-    });
-  }
-
+    //check to see if all required fields are present
+    if( email === undefined || password === undefined ) {
+         return next({
+            log: 'Express error handler caught error in addUser Middleware',
+            status: 400,
+            message: {err: 'Missing one of the required fields(Email or Password)'},
+        });
+    }
   //check if there is already an account registerd with that username
   const user = await User.findOne({ email: email });
   console.log(user, "user");
