@@ -6,8 +6,8 @@ import User from '../models/userModel';
 const sessionController = {} as sessionController;
 
 sessionController.validateSession  = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const userId = req.session.userId
-    console.log('session userId:', userId);
+    const userId = req.session.userId;
+    
     if(userId) {
         const user = await User.findOne({_id: userId});
         if(!user) {
@@ -18,7 +18,9 @@ sessionController.validateSession  = async (req: Request, res: Response, next: N
         }
         return next({log: 'Invalid Session'});
     }
+    
     return next({log: `No Session UserId found.`});
 }
+
 
 export default sessionController;

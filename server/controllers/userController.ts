@@ -1,8 +1,6 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
+import { Request, Response, NextFunction} from 'express';
 import { userController } from '../type';
-import { ObjectId } from 'mongodb'
 import bcrypt from 'bcrypt';
-import path from 'path';
 import User from '../models/userModel';
 
 
@@ -16,7 +14,6 @@ userController.addUser = async (req: Request, res: Response, next: NextFunction)
         return next({log: 'Passwords did not match for signup', message: 'Passwords given do not match', status: 400})
     }
 
-    console.log('reached adduser')
     //check to see if all required fields are present
     if( email === undefined || password === undefined ) {
          return next({

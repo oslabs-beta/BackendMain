@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 const dbpassword: string = process.env.DB_PASS;
-const Uri: string = `mongodb+srv://davidjs314:${dbpassword}@userdatabase.dwlwu.mongodb.net/?retryWrites=true&w=majority&appName=UserDatabase`
+export const Uri: string = `mongodb+srv://davidjs314:${dbpassword}@userdatabase.dwlwu.mongodb.net/?retryWrites=true&w=majority&appName=UserDatabase`
 
 import mongoose, { Schema, Document } from 'mongoose';
 
