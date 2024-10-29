@@ -38,8 +38,9 @@ githubOAuthController.getUserData = (req: Request, res: Response, next: NextFunc
   .then(response => response.json())
   .then(data => {
     //generate jwtToken & refreshJwtToken according to userData
-    const jwtToken = jwt.sign({id: data.id, username: data.username}, JWT_SECRET, { expiresIn: '1h' });
-    const refreshToken = jwt.sign({id:data.id, username: data.username}, REFRESH_TOKEN_SECRET, {expiresIn: '1d' })
+    // console.log(data,"userdata sent back")
+    const jwtToken = jwt.sign({id: data.id, username: data.login}, JWT_SECRET, { expiresIn: '1h' });
+    const refreshToken = jwt.sign({id:data.id, username: data.login}, REFRESH_TOKEN_SECRET, {expiresIn: '1d' })
     res.locals.jwtToken = jwtToken;
     res.locals.refreshToken = refreshToken;
     next();
