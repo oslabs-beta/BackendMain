@@ -1,23 +1,35 @@
 // npx tsx server.ts
-
-import { Request, Response, NextFunction, RequestHandler } from 'express';
-import cookieSession from 'cookie-session';
-import path from 'path';
+import { Request, Response, NextFunction } from 'express';
 import { ServerError } from './server/type';
 import sessionController from './server/controllers/sessionController';
 import userController from './server/controllers/userController';
-import openAiController from './server/controllers/openAiController';
+import githubOAuthController from './server/controllers/githubOAuthController';
+import googleOAuthController from './server/controllers/googleOAuthController';
 import session from 'express-session';
-import mongoose from 'mongoose';
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
+import cookieSession from 'cookie-session';
+import path from 'path';
+import openAiController from './server/controllers/openAiController';
+import mongoose from 'mongoose';
 
 const app = express();
 const PORT: number = 3008;
+app.use(
+  cors({
+    origin: '*', // Frontend URL
+    methods: ['GET', 'POST'],
+    credentials: true, // Optional, if you're handling cookies or authentication tokens
+  })
+);
+
+const secret: string = process.env.SECRET;
 
 app.use(
   session({
-    secret: 'fillerfornow',
+    secret: secret,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -60,6 +72,77 @@ app.get(
   sessionController.validateSession,
   (req: Request, res: Response): void => {
     res.sendStatus(200);
+  }
+);
+
+app.get('/api/logout', (req: Request, res: Response) => {
+  res.clearCookie('connect.sid').sendStatus(200);
+});
+
+//get github AccessToken
+//code passed from frontend
+app.get(
+  '/getAccessToken',
+  githubOAuthController.getAccessToken,
+  (req: Request, res: Response): void => {
+    res.status(200).json({
+      success: true,
+      message: 'get github accessToken successfully',
+      access_token: res.locals.access_token,
+    });
+  }
+);
+
+//github getUserData
+//accessToken being passed as Authorization Header
+
+app.get(
+  '/getUserData',
+  githubOAuthController.getUserData,
+  (req: Request, res: Response): void => {
+    res.status(200).json({
+      success: true,
+      message: 'successfully getting userData',
+      jwtToken: res.locals.jwtToken,
+      refreshToken: res.locals.refreshToken,
+    });
+  }
+);
+
+app.get(
+  '/api/githubJwtValidation',
+  githubOAuthController.validateJwtToken,
+  (req: Request, res: Response): void => {
+    res.status(200).json({
+      success: true,
+      message: 'successfully verifying jwt token',
+      userData: res.locals.user,
+    });
+  }
+);
+
+app.post(
+  '/api/githubRefreshJwtToken',
+  githubOAuthController.refreshJwtToken,
+  (req: Request, res: Response): void => {
+    res.status(200).json({
+      success: true,
+      message: 'successfully refreshing jwt token',
+      newJwt: res.locals.newJwt,
+    });
+  }
+);
+
+//get google accessToken and refresh google access token
+app.post(
+  '/google/oauth/token',
+  googleOAuthController.getAccessToken,
+  (req: Request, res: Response): void => {
+    res.status(200).json({
+      success: true,
+      message: 'successfully getting google accessToken',
+      googleToken: res.locals.googleToken,
+    });
   }
 );
 
