@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 const PORT: number = 3008;
 app.use(cors({
-    origin: 'http://localhost:8080', // Frontend URL
+    origin: '*', // Frontend URL
     methods: ['GET', 'POST'],
     credentials: true // Optional, if you're handling cookies or authentication tokens
 }));
