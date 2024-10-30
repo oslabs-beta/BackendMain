@@ -17,8 +17,11 @@ app.use(cors({
     methods: ['GET', 'POST'],
     credentials: true // Optional, if you're handling cookies or authentication tokens
 }));
+
+const secret: string = process.env.SECRET;
+
 app.use(session({
-    secret: 'fillerfornow',
+    secret: secret,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -46,6 +49,10 @@ app.get(
       res.sendStatus(200);
     }
 );
+
+app.get("/api/logout", (req: Request, res: Response) => {
+  res.clearCookie('connect.sid').sendStatus(200);
+});
 
 //get github AccessToken
 //code passed from frontend
