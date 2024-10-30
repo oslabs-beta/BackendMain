@@ -47,6 +47,10 @@ app.get(
     }
 );
 
+app.get("/api/logout", (req: Request, res: Response) => {
+  res.clearCookie('connect.sid').sendStatus(200);
+});
+
 //get github AccessToken
 //code passed from frontend
 app.get('/getAccessToken', githubOAuthController.getAccessToken, (req:Request, res:Response):void => {
