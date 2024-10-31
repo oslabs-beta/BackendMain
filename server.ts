@@ -17,18 +17,13 @@ import mongoose from 'mongoose';
 
 const app = express();
 const PORT: number = 3008;
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl requests)
-    if (!origin || /https:\/\/.*\.vercel\.app$/.test(origin)) {
-      callback(null, true); // Allow the request
-    } else {
-      callback(new Error('Not allowed by CORS')); // Deny the request
-    }
-  },
-  methods: ['GET', 'POST'],
-  credentials: true, // Optional, if you're handling cookies or authentication tokens
-}));
+app.use(
+  cors({
+    origin: 'http://streamforgeobs.com/', // Frontend URL
+    methods: ['GET', 'POST'],
+    credentials: true, // Optional, if you're handling cookies or authentication tokens
+  })
+);
 
 const secret: string = process.env.SECRET;
 
