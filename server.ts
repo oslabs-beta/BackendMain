@@ -17,13 +17,13 @@ import mongoose from 'mongoose';
 
 const app = express();
 const PORT: number = 3008;
-app.use(
-  cors({
-    origin: ['https://streamforgeobs.com', 'https://www.streamforgeobs.com'], // Include both versions
-    methods: ['GET', 'POST'],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: 'https://streamforgeobs.com',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type']
+}));
+
+app.options('*', cors()); // Enable preflight for all routes
 
 const secret: string = process.env.SECRET;
 
