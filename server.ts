@@ -1,5 +1,6 @@
 // npx tsx server.ts
 import { Request, Response, NextFunction } from 'express';
+import compression from 'compression';
 import { ServerError } from './server/type';
 import sessionController from './server/controllers/sessionController';
 import userController from './server/controllers/userController';
@@ -17,6 +18,9 @@ import mongoose from 'mongoose';
 
 const app = express();
 const PORT: number = 3008;
+
+app.use(compression());
+
 app.use(
   cors({
     origin: '*', // Frontend URL
