@@ -40,13 +40,6 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: 'http://localhost:8080/', // Frontend URL
-    methods: ['GET', 'POST'],
-    credentials: true, // Optional, if you're handling cookies or authentication tokens
-  })
-);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
