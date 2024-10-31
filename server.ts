@@ -19,7 +19,7 @@ const app = express();
 const PORT: number = 3008;
 app.use(
   cors({
-    origin: 'https://frontend-main-updated-gpvl16ydk-stream-forge.vercel.app', // Frontend URL
+    origin: '/https:\/\/.*\.vercel\.app$/', // Frontend URL
     methods: ['GET', 'POST'],
     credentials: true, // Optional, if you're handling cookies or authentication tokens
   })
