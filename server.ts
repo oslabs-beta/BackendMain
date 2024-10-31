@@ -19,9 +19,9 @@ const app = express();
 const PORT: number = 3008;
 app.use(
   cors({
-    origin: 'http://streamforgeobs.com/', // Frontend URL
+    origin: ['https://streamforgeobs.com', 'https://www.streamforgeobs.com'], // Include both versions
     methods: ['GET', 'POST'],
-    credentials: true, // Optional, if you're handling cookies or authentication tokens
+    credentials: true,
   })
 );
 
