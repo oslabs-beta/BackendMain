@@ -21,10 +21,10 @@ app.use(compression());
 app.use(cors({
   origin: 'http://localhost:8080',
   methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type']
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.options('*', cors()); // Enable preflight for all routes
+// app.options('*', cors()); // Enable preflight for all routes
 
 const secret: string = process.env.SECRET;
 
