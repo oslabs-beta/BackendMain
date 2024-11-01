@@ -19,7 +19,7 @@ const PORT: number = 3008;
 app.use(compression());
 
 app.use(cors({
-  origin: 'http://localhost:8080',
+  origin: ['streamforgeobs.com', 'www.streamforgeobs.com'],
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
