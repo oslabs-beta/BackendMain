@@ -10,15 +10,16 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
-import cookieSession from 'cookie-session';
-import path from 'path';
 import openAiController from './server/controllers/openAiController';
-import mongoose from 'mongoose';
+import compression from 'compression';
 
 const app = express();
 const PORT: number = 3008;
+
+app.use(compression());
+
 app.use(cors({
-  origin: 'https://streamforgeobs.com',
+  origin: 'http://localhost:8080',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));

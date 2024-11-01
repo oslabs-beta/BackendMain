@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "compression": "^1.7.5",
     "connect-mongodb-session": "^5.0.0",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
