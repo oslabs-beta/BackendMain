@@ -10,20 +10,21 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
-import cookieSession from 'cookie-session';
-import path from 'path';
 import openAiController from './server/controllers/openAiController';
-import mongoose from 'mongoose';
+import compression from 'compression';
 
 const app = express();
 const PORT: number = 3008;
-app.use(
-  cors({
-    origin: '*', // Frontend URL
-    methods: ['GET', 'POST'],
-    credentials: true, // Optional, if you're handling cookies or authentication tokens
-  })
-);
+
+app.use(compression());
+
+app.use(cors({
+  origin: 'http://localhost:8080',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// app.options('*', cors()); // Enable preflight for all routes
 
 const secret: string = process.env.SECRET;
 
@@ -40,13 +41,6 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: 'http://localhost:8080/', // Frontend URL
-    methods: ['GET', 'POST'],
-    credentials: true, // Optional, if you're handling cookies or authentication tokens
-  })
-);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
