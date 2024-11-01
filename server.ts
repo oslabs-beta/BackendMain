@@ -11,10 +11,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
-import cookieSession from 'cookie-session';
-import path from 'path';
 import openAiController from './server/controllers/openAiController';
-import mongoose from 'mongoose';
 
 const app = express();
 const PORT: number = 3008;
