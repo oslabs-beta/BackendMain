@@ -1,6 +1,5 @@
 // npx tsx server.ts
 import { Request, Response, NextFunction } from 'express';
-import compression from 'compression';
 import { ServerError } from './server/type';
 import sessionController from './server/controllers/sessionController';
 import userController from './server/controllers/userController';
@@ -12,19 +11,20 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
 import openAiController from './server/controllers/openAiController';
+import compression from 'compression';
 
 const app = express();
 const PORT: number = 3008;
 
 app.use(compression());
 
-app.use(
-  cors({
-    origin: '*', // Frontend URL
-    methods: ['GET', 'POST'],
-    credentials: true, // Optional, if you're handling cookies or authentication tokens
-  })
-);
+app.use(cors({
+  origin: 'http://localhost:8080',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// app.options('*', cors()); // Enable preflight for all routes
 
 const secret: string = process.env.SECRET;
 
@@ -41,13 +41,6 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: 'http://localhost:8080/', // Frontend URL
-    methods: ['GET', 'POST'],
-    credentials: true, // Optional, if you're handling cookies or authentication tokens
-  })
-);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
