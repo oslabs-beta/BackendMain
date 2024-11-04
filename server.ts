@@ -19,8 +19,8 @@ const PORT: number = 3008;
 app.use(compression());
 
 app.use(cors({
-  origin: 'https://streamforgeobs.com',
-  methods: ['GET', 'POST'],
+  origin: 'https://oy3mb91jze.execute-api.us-east-1.amazonaws.com',
+  methods: ['*'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
