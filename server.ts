@@ -21,6 +21,7 @@ app.use(compression());
 app.use(cors({
   origin: 'https://streamforgeobs.com', // Update to your frontend domain
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Specify allowed methods
+  credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
 
