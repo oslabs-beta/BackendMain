@@ -21,25 +21,23 @@ app.use(compression());
 app.use(cors({
   origin: 'https://streamforgeobs.com', // Update to your frontend domain
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Specify allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }));
 
 // app.options('*', cors()); // Enable preflight for all routes
 
 const secret: string = process.env.SECRET;
 
-app.use(
-  session({
-    secret: secret,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false,
-      httpOnly: true,
-      maxAge: 1000 * 60 * 30, // 30 minutes
-    },
-  })
-);
+app.use(session({
+  secret: `${secret}`, // Use a secret to sign the session ID
+  resave: false,              // Don't resave session if unmodified
+  saveUninitialized: true,    // Save session even if it’s new
+  cookie: {
+      secure: true,          // Set to true if using HTTPS (set to true for production)
+      httpOnly: true,         // Prevent JavaScript access to cookies
+      maxAge: 1000 * 60 * 60  // Cookie expiry time (e.g., 1 hour)
+  }
+}));
 
 
 app.use(express.urlencoded({ extended: true }));
