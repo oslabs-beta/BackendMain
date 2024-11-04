@@ -33,7 +33,7 @@ app.use(session({
   resave: false,              // Don't resave session if unmodified
   saveUninitialized: true,    // Save session even if it’s new
   cookie: {
-      secure: true,          // Set to true if using HTTPS (set to true for production)
+      secure: false,          // Set to true if using HTTPS (set to true for production)
       httpOnly: true,         // Prevent JavaScript access to cookies
       maxAge: 1000 * 60 * 60  // Cookie expiry time (e.g., 1 hour)
   }
