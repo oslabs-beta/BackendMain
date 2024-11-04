@@ -19,9 +19,9 @@ const PORT: number = 3008;
 app.use(compression());
 
 app.use(cors({
-  origin: 'https://oy3mb91jze.execute-api.us-east-1.amazonaws.com',
-  methods: ['*'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: 'https://streamforgeobs.com', // Update to your frontend domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Specify allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // app.options('*', cors()); // Enable preflight for all routes
