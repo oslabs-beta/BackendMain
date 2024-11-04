@@ -7,7 +7,7 @@ const sessionController = {} as sessionController;
 
 sessionController.validateSession  = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const userId = req.session.userId;
-    
+    console.log(userId);
     if(userId) {
         const user = await User.findOne({_id: userId});
         if(!user) {
