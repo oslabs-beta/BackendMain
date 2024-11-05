@@ -112,7 +112,7 @@ userController.getUserQueries = async (
   next: NextFunction
 ): Promise<void> => {
   const { userId } = req.session;
-
+  console.log(userId);
   try {
     const user = await User.findById(userId);
     if (user) {
