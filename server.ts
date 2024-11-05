@@ -30,13 +30,13 @@ app.use(cors({
 const secret: string = process.env.SECRET;
 
 app.use(session({
-  secret: `${secret}`, // Use a secret to sign the session ID
-  resave: false,              // Don't resave session if unmodified
-  saveUninitialized: true,    // Save session even if it’s new
+  secret: process.env.SECRET,  // Secret used to sign the session ID
+  resave: false,               // Don't save session if unmodified
+  saveUninitialized: true,     // Save session even if new (for new sessions)
   cookie: {
-      secure: false,          // Set to true if using HTTPS (set to true for production)
-      httpOnly: true,         // Prevent JavaScript access to cookies
-      maxAge: 1000 * 60 * 60  // Cookie expiry time (e.g., 1 hour)
+    secure: false,             // Set to true in production when using HTTPS
+    httpOnly: true,            // Prevent JavaScript access to the session cookie
+    maxAge: 1000 * 60 * 60     // Set session cookie expiration (e.g., 1 hour)
   }
 }));
 
