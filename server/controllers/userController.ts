@@ -1,9 +1,12 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { userController } from '../type';
-import { ObjectId } from 'mongodb';
 import bcrypt from 'bcrypt';
-import path from 'path';
 import User from '../models/userModel';
+import sgMail from '@sendgrid/mail';
+import fs from 'fs';
+import { join } from 'path';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const userController = {} as userController;
 
@@ -21,14 +24,14 @@ userController.addUser = async (
       status: 400,
     });
   }
-    //check to see if all required fields are present
-    if( email === undefined || password === undefined ) {
-         return next({
-            log: 'Express error handler caught error in addUser Middleware',
-            status: 400,
-            message: {err: 'Missing one of the required fields(Email or Password)'},
-        });
-    }
+  //check to see if all required fields are present
+  if (email === undefined || password === undefined) {
+    return next({
+      log: 'Express error handler caught error in addUser Middleware',
+      status: 400,
+      message: { err: 'Missing one of the required fields(Email or Password)' },
+    });
+  }
   //check if there is already an account registerd with that username
   const user = await User.findOne({ email: email });
   console.log(user, 'user');
@@ -103,6 +106,65 @@ userController.verifyUser = async (
       status: 401,
       message: { err: 'Error in verifying user' },
     });
+  }
+};
+
+userController.pwReset = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const htmlPath = join(process.cwd(), 'pwReset.html');
+
+  fs.readFile(htmlPath, 'utf8', (err, html) => {
+    if (err) {
+      console.error('Error reading pwReset.html', err);
+      return;
+    }
+    const { resetEmail } = req.body;
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+    const msg = {
+      to: resetEmail,
+      from: process.env.EMAIL,
+      subject: 'StreamForgeObs - reset your password',
+      text: 'what is text?',
+      html: html,
+    };
+
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log(`Email sent to user ${resetEmail} to reset password.`);
+      })
+      .catch((error) => {
+        console.error('Error at pwRest middleware', error);
+      });
+  });
+};
+
+userController.updateUserPw = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const { resetPwEmail, newPw } = req.body;
+  try {
+    const user = await User.findOne({ email: resetPwEmail });
+    if (!user) {
+      return next({
+        log: 'Cannot find user in updateUserPw Middleware',
+        status: 404,
+        message: { err: 'User does not exist' },
+      });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPw, salt);
+    user.password = hashedPassword;
+    await user.save();
+    res.status(200).json({ message: 'user password has been updated' });
+  } catch (error) {
+    console.error('Error at updateUserPw middleware', error);
   }
 };
 

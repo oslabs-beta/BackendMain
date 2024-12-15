@@ -18,11 +18,13 @@ const PORT: number = 3008;
 
 app.use(compression());
 
-app.use(cors({
-  origin: 'http://localhost:8080',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(
+  cors({
+    origin: 'http://localhost:8080',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
 // app.options('*', cors()); // Enable preflight for all routes
 
@@ -40,7 +42,6 @@ app.use(
     },
   })
 );
-
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -72,6 +73,14 @@ app.get(
 app.get('/api/logout', (req: Request, res: Response) => {
   res.clearCookie('connect.sid').sendStatus(200);
 });
+
+app.post(
+  '/api/resetpw',
+  userController.pwReset,
+  (req: Request, res: Response) => {}
+);
+
+app.post('/api/newPw', userController.updateUserPw);
 
 //get github AccessToken
 //code passed from frontend

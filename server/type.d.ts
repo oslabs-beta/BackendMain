@@ -14,27 +14,26 @@ export type sessionController = {
 export type userController = {
   addUser: (req: Request, res: Response, next: NextFunction) => void;
   verifyUser: (req: Request, res: Response, next: NextFunction) => void;
+  pwReset: (req: Request, res: Response, next: NextFunction) => void;
+  updateUserPw: (req: Request, res: Response, next: NextFunction) => void;
   addDataSource: (req: Request, res: Response, next: NextFunction) => void;
   addQueries: (req: Request, res: Response, next: NextFunction) => void;
   deleteQuery: (req: Request, res: Response, next: NextFunction) => void;
   getUserQueries: (req: Request, res: Response, next: NextFunction) => void;
   addCategory: (req: Request, res: Response, next: NextFunction) => void;
   deleteCategory: (req: Request, res: Response, next: NextFunction) => void;
-
 };
 
 export type githubOAuthController = {
-    getAccessToken: (req: Request, res: Response, next: NextFunction) => void;
-    getUserData: (req: Request, res: Response, next: NextFunction) => void;
-    validateJwtToken: (req: Request, res: Response, next: NextFunction) => void;
-    refreshJwtToken: (req: Request, res: Response, next: NextFunction) => void;
-}
+  getAccessToken: (req: Request, res: Response, next: NextFunction) => void;
+  getUserData: (req: Request, res: Response, next: NextFunction) => void;
+  validateJwtToken: (req: Request, res: Response, next: NextFunction) => void;
+  refreshJwtToken: (req: Request, res: Response, next: NextFunction) => void;
+};
 
 export type googleOAuthController = {
-    getAccessToken: (req: Request, res: Response, next: NextFunction) => void;
-}
-
-
+  getAccessToken: (req: Request, res: Response, next: NextFunction) => void;
+};
 
 export type openAiController = {
   generateAiResponse: (req: Request, res: Response, next: NextFunction) => void;

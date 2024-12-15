@@ -1,15 +1,15 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
 const dbpassword: string = process.env.DB_PASS;
 const Uri: string = `mongodb+srv://davidjs314:${dbpassword}@userdatabase.dwlwu.mongodb.net/?retryWrites=true&w=majority&appName=UserDatabase`;
 
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from 'mongoose';
 
 mongoose
   .connect(Uri)
-  .then(() => console.log("Connected to The mongoose DB"))
-  .catch((err) => console.log("Error when connecting to the mongo DB " + err));
+  .then(() => console.log('Connected to The mongoose DB'))
+  .catch((err) => console.log('Error when connecting to the mongo DB ' + err));
 
 interface User extends Document {
   email: string;
@@ -26,7 +26,7 @@ const userSchema = new Schema<User>({
   datasource: {
     type: String,
     required: false,
-    default: "http://localhost:9090/api/v1/query?query=",
+    default: 'http://localhost:9090/api/v1/query?query=',
   },
   categories: {
     type: Map,
@@ -35,6 +35,8 @@ const userSchema = new Schema<User>({
   },
 });
 
-const UserModel = mongoose.model<User>("User", userSchema);
+userSchema.index({ email: 1 });
+
+const UserModel = mongoose.model<User>('User', userSchema);
 
 export default UserModel;
